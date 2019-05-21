@@ -19,17 +19,23 @@ lab = """
 101011110101010101
 1000000101000000#1
 111111111111111111""".split()
-print(lab)
 labirint2 = []
-
+# превращение строки в список строк
 for i in lab:
     labirint2.append(list(i))
-
+#format
 for i in range(len(labirint2)):
     for j in range(len(labirint2[i])):
-        print(labirint2[i][j], end=' ')
-    print()
+        if labirint2[i][j]=='1':
+            labirint2[i][j]='-1'
 
+# печать списка в виде матрицы
+for i in labirint2:
+    for j in i:
+        print("{:^3}".format(j), end=",")
+    print("")
+
+# поиск начальной точки
 co_enter = [0, 0]
 for i in range(len(labirint2)):
     for j in range(len(labirint2[i])):
@@ -39,32 +45,35 @@ for i in range(len(labirint2)):
             x = co_enter[i]
             print(co_enter)
 
-tern = {}
+tern = []
 
 
+# функция поиска выхода
 def Found(x0, y0):
-    labirint2[x0][y0] = '2'
     if labirint2[x0][y0] == '#':
         print('exit found')
     else:
-        if labirint2[x0][y0 + 1] == '0':
-            tern[x0, y0 + 1] = 'r'
+        labirint2[x0][y0] = '2'
+
+        if labirint2[x0][y0 + 1] == '0' or labirint2[x0][y0 + 1] == '#':
+            tern.append('r')
             Found(x0, y0 + 1)
-        elif labirint2[x0][y0 - 1] == '0':
-            tern[x0, y0 - 1] = 'l'
+        if labirint2[x0][y0 - 1] == '0' or labirint2[x0][y0 - 1] == '#':
+            tern.append('l')
             Found(x0, y0 - 1)
-        elif labirint2[x0 - 1][y0] == '0':
-            tern[x0 - 1, y0] = 'd'
+        if labirint2[x0 - 1][y0] == '0' or labirint2[x0 - 1][y0] == '#':
+            tern.append('u')
             Found(x0 - 1, y0)
-        elif labirint2[x0 + 1][y0] == '0':
-            tern[x0 + 1, y0] = 'u'
+        if labirint2[x0 + 1][y0] == '0' or labirint2[x0 + 1][y0] == '#':
+            tern.append('d')
             Found(x0 + 1, y0)
 
 
 Found(x, y)
 print(tern)
 print()
-for i in range(len(labirint2)):
-    for j in range(len(labirint2[i])):
-        print(labirint2[i][j], end=' ')
-    print()
+for i in labirint2:
+    for j in i:
+        print("{:^3}".format(j), end=" ")
+    print("")
+

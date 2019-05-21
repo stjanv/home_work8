@@ -52,7 +52,7 @@ def main():
         [1, 0, 1, 1, 0, 0, 0, 1, 1, 1],
         [1, 0, 1, 1, 0, 1, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 1, 0, 1, 0, 1],
-        [1, 1, 0, 1, 1, 1, 0, 1, 0, 1],
+        [1, 0, 0, 1, 1, 1, 0, 1, 0, 1],
         [0, 0, 1, 0, 1, 1, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
         [1, 1, 1, 0, 1, 0, 1, 1, 0, 1],
@@ -65,7 +65,6 @@ def main():
 
     path = [[x if x == 0 else -1 for x in y] for y in labirint]
     path[pozIn[0]][pozIn[1]] = 1;
-
     if not found(path, pozOut):
         print("Путь не найден!")
         return
@@ -77,5 +76,6 @@ def main():
             print("{:^3}".format(line), end=",")
         print("")
     print(result)
+
 
 main()
