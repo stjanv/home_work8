@@ -115,7 +115,7 @@ def add_file_to_list(this_file):
 
     return takes_Words_in_lines
 
-def create_log_file_with_searches(file_log): #file_log это массив строк в прочтенном файле
+def create_log_file_with_sities(file_log): #file_log это массив строк в прочтенном файле
     log_file_searches={}
     searches=[]
     # count1=0
@@ -123,9 +123,9 @@ def create_log_file_with_searches(file_log): #file_log это массив ст�
     for record_index in range(len(file_log)):
         # count1+=1
         if file_log[record_index][5] in log_file_searches:
-            log_file_searches[file_log[record_index][5]]+=1
+            log_file_searches[file_log[record_index][3]]+=1
         else:
-            log_file_searches[file_log[record_index][5]]=1
+            log_file_searches[file_log[record_index][3]]=1
     for key,arg in log_file_searches.items():
         if arg == 1:
             # count2+=1
@@ -134,11 +134,15 @@ def create_log_file_with_searches(file_log): #file_log это массив ст�
     return searches
 
 
-def count_searches(file_log,searches):
-    for jter in file_log:
-        for jjter in searches:
-            if jjter == jter[5]:
-
+def create_file(sities):
+    for ff in sities:
+        for f in os.listdir(path='.\ExtractArchive\searches'):
+            if f!=(ff+'.tsv'):
+                new_file=open('.\ExtractArchive\searches'+'\\'+ff+'.tsv','w',encoding='utf-8')
+                file_close(new_file)
+            else:
+                continue
+    return
 
 
 
@@ -156,7 +160,8 @@ if __name__ == '__main__':
     takes_Words_in_lines = add_file_to_list(f)
     file_close(f)
     #printing(takes_Words_in_lines)
-    log_file_searches=create_log_file_with_searches(takes_Words_in_lines)
+    log_file_searches=create_log_file_with_sities(takes_Words_in_lines)
     searches=log_file_searches
-
+    pprint(searches)
+    create_file(searches)
     print(lines)
