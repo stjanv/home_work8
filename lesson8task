@@ -1,0 +1,168 @@
+from line import line
+import json
+import pprint
+from pathlib import Path
+from os import *
+import os
+class Person:
+    """New Person creating"""
+    def __init__(self, name, position, zp):
+        '''Initialisation Person'''
+        self.name = name
+        self.position = position
+        self.zp = zp
+
+    def __str__(self):
+        """Print Person attributes"""
+        return 'Name: {},\nPosition: {},\nZp: {}'.format(self.name, self.position, self.zp)
+
+
+class Manager(Person):
+    '''New Person like a Manager'''
+    def __init__(self, name, position, zp, proc):
+        super().__init__(name, position, zp)
+        self.proc = int(zp/proc)
+
+    def __str__(self):
+        '''Print Manager Attribute'''
+        return 'Name: {},\nPosition: {},\nZp: {},\nBonus: {}'.format(self.name, self.position, self.zp, self.proc)
+
+
+p = Person('Nick', 'Manager', 1500)
+m = Manager('Vova','Admin',300,10)
+
+
+
+print(p)
+print(line)
+print(m)
+
+class ReadString:
+    '''Reading input string from user'''
+    string_for_check = ['{', '}', '[', ']', '(', ')', '<', '>']
+    string_for_check_right = ['{}', '[]', '()', '<>']
+    def __init__(self, string='String is empty'):
+        '''Initialisation ReadString'''
+        self.string = string
+
+    def __str__(self):
+        '''Printing Ur String'''
+        return 'Ur string is "{}"'.format(self.string)
+
+    def check_in_string(self):
+        '''Check string contains'''
+        boolean=True
+        for symbol in self.string:
+            if symbol not in ReadString.string_for_check:
+                boolean=False
+        if boolean:
+            return ('String contains only from this items list: '
+                    +str(ReadString.string_for_check)
+                    )
+        else:
+            return 'Ur string is bad'
+
+    def chec_for_good_or_bad(self):
+        '''Check ringht contains string'''
+        boolean2 = True
+
+        for i in range(0,len(self.string)-1,2):
+            if (self.string[i]+self.string[i+1]) in ReadString.string_for_check_right:
+                boolean2=True
+            else:
+                boolean2=False
+                break
+        return boolean2
+
+
+s = ReadString(input())
+print(s)
+print(line)
+print(s.check_in_string())
+print(line)
+print(s.chec_for_good_or_bad())
+
+cars = [
+    {'Model': 'Toyota', 'Series': 'Corolla', 'Release Years': '2007', 'Cost': '8200'},
+    {'Model': 'Toyota', 'Series': 'Avensis', 'Release Years': '2012', 'Cost': '13400'},
+    {'Model': 'Toyota', 'Series': 'Camry', 'Release Years': '2019', 'Cost': '21500'}
+]
+computers = [
+    {'Model': 'HP', 'Series': 'g6', 'Cost': '2013', 'Core': 'core i3-7100'},
+    {'Model': 'Acer', 'Series': 'predator', 'Cost': '2019', 'Core': 'core i7-9000'},
+    {'Model': 'Dell', 'Series': 'inspiron', 'Cost': '2017', 'Core': 'core i5-8800'}
+]
+
+
+class WriteToJsonFile(object):
+    '''Json file to class object'''
+    def __init__(self):
+        pass
+
+    def Write_to_json_file(self, information, file_path):
+        '''Write to .json file'''
+        try:
+            data = json.load(open(file_path))
+        except:
+            data = []
+        data.append(information)
+        with open(file_path, 'w') as file1:
+            json.dump(data, file1, indent=2, ensure_ascii=False)
+            file1.close()
+
+    def Read_from_json_file(self,file_path):
+        '''Read from .json file'''
+        try:
+            data = json.load(open(file_path))
+        except:
+           return print('File dose not exist')
+        return data
+
+    def Concatenation_both_files(self,file_path1,file_path2,new_file_path):
+        '''Summ both .json files in 3th'''
+        try:
+            data1 = json.load(open(file_path1))
+        except:
+            data1 = []
+        try:
+            data2 = json.load(open(file_path2))
+        except:
+            data2 = []
+        data3=data1+data2
+
+        with open(new_file_path, 'w') as file1:
+            json.dump(data3, file1, indent=2, ensure_ascii=False)
+            file1.close()
+
+    def take_ur_path(self,file_name,flag):
+        '''Print absolute or relative path, for ur choice'''
+        dirsPathesList = []
+        for dirpath, dirnames, files in os.walk('C:/Users/2K_Mefis_Try/PycharmProjects'):
+            if os.listdir(dirpath) != []:
+                dirsPathesList.append(dirpath)
+
+        for i in dirsPathesList:
+            for element in os.scandir(i):
+                if element.is_file():
+                    if element.name == file_name:
+                        file_searche_path=i
+        if flag=='absolute':
+            return file_searche_path
+        elif flag == 'relative':
+            s=''
+            for i in range(len(file_searche_path)):
+                if i>(len(file_searche_path)-len('C:/Users/2K_Mefis_Try/PycharmProjects')):
+                    s+=file_searche_path[i]
+            return s
+
+
+os.chdir('C:/Users/2K_Mefis_Try/PycharmProjects/home_work')
+file_path1='./ExtractArchive/json_files/first.json'
+file_path2='./ExtractArchive/json_files/second.json'
+file_new_path='./ExtractArchive/json_files/first_+_second.json'
+s=WriteToJsonFile()
+s.Write_to_json_file(computers,file_path1)
+s.Read_from_json_file(file_path2)
+s.Concatenation_both_files(file_path1,file_path2,file_new_path)
+path_name=input('absolute or relative path u need:')
+print(s.take_ur_path('first.json',path_name))
