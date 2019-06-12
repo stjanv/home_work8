@@ -62,17 +62,14 @@ class ReadString:
         else:
             return 'Ur string is bad'
 
-    def chec_for_good_or_bad(self):
+        def chec_for_good_or_bad(self):
         '''Check ringht contains string'''
-        boolean2 = True
-
-        for i in range(0,len(self.string)-1,2):
-            if (self.string[i]+self.string[i+1]) in ReadString.string_for_check_right:
-                boolean2=True
-            else:
-                boolean2=False
-                break
-        return boolean2
+        while '()' in self.string or '[]' in self.string or '{}' in self.string or '<>' in self.string:
+            self.string = self.string.replace('()', '')
+            self.string = self.string.replace('[]', '')
+            self.string = self.string.replace('{}', '')
+            self.string = self.string.replace('<>', '')
+        return not self.string
 
 
 s = ReadString(input())
